@@ -1,6 +1,7 @@
 #if canImport(FoundationModels)
 import Foundation
 @testable import SwiftAI
+import SwiftAILLMTesting
 import Testing
 import FoundationModels
 

@@ -5,6 +5,6 @@ import SwiftSyntaxMacros
 struct SwiftAIMacrosPlugin: CompilerPlugin {
   let providingMacros: [Macro.Type] = [
     GenerableMacro.self,
-    GuideMacro.self
+    GuideMacro.self,
   ]
 }

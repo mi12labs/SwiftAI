@@ -1,4 +1,5 @@
 import Foundation
+import SwiftAILLMTesting
 import Testing
 
 @testable import SwiftAI
@@ -12,13 +13,13 @@ struct OpenaiLLMTests: LLMBaseTestCases {
   // MARK: - Shared LLM Tests
 
   @Test("Basic text generation", .enabled(if: apiKeyIsPresent()))
-  func testReply_ToPrompt() async throws {
-    try await testReply_ToPrompt_Impl()
+  func testReplyToPrompt() async throws {
+    try await testReplyToPrompt_Impl()
   }
 
   @Test("Basic text generation - history verification", .enabled(if: apiKeyIsPresent()))
-  func testReply_ToPrompt_ReturnsCorrectHistory() async throws {
-    try await testReply_ToPrompt_ReturnsCorrectHistory_Impl()
+  func testReplyToPrompt_ReturnsCorrectHistory() async throws {
+    try await testReplyToPrompt_ReturnsCorrectHistory_Impl()
   }
 
   @Test(
@@ -100,8 +101,8 @@ struct OpenaiLLMTests: LLMBaseTestCases {
   }
 
   @Test("Tool calling - error handling", .enabled(if: apiKeyIsPresent()))
-  func testReply_WithFailingTool_HandlesErrors() async throws {
-    try await testReply_WithFailingTool_HandlesErrors_Impl()
+  func testReply_WithFailingTool_Fails() async throws {
+    try await testReply_WithFailingTool_Fails_Impl()
   }
 
   @Test("Complex conversation history with structured analysis", .enabled(if: apiKeyIsPresent()))
@@ -110,8 +111,8 @@ struct OpenaiLLMTests: LLMBaseTestCases {
   }
 
   @Test("History seeding for conversation continuity", .enabled(if: apiKeyIsPresent()))
-  func testReply_ToSeededHistory_MaintainsContext() async throws {
-    try await testReply_ToSeededHistory_MaintainsContext_Impl()
+  func testReply_ToChatContinuation() async throws {
+    try await testReply_ToChatContinuation_Impl()
   }
 
   @Test("Session-based structured output conversation", .enabled(if: apiKeyIsPresent()))
@@ -127,8 +128,8 @@ struct OpenaiLLMTests: LLMBaseTestCases {
   // MARK: - OpenAI-Specific Tests
 
   @Test("Conversation with system prompt", .enabled(if: apiKeyIsPresent()))
-  func testReply_ToSystemPrompt_ReturnsCorrectResponse() async throws {
-    try await testReply_ToSystemPrompt_ReturnsCorrectResponse_Impl()
+  func testReply_WithSystemPrompt() async throws {
+    try await testReply_WithSystemPrompt_Impl()
   }
 
   @Test("Error handling for invalid request", .enabled(if: apiKeyIsPresent()))
