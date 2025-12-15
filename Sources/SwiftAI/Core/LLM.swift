@@ -520,7 +520,7 @@ public struct LLMReply<T: Generable>: Sendable {
 /// These options provide fine-grained control over the model's output characteristics,
 /// allowing applications to tune the model's creativity and response length to match
 /// specific use cases and requirements.
-public struct LLMReplyOptions: Sendable, Equatable {
+public struct LLMReplyOptions: Sendable {
 
   public enum SamplingMode: Sendable, Equatable {
     /// With top-p sampling, tokens are sorted by likelihood and added to a
@@ -575,13 +575,30 @@ public struct LLMReplyOptions: Sendable, Equatable {
   /// Note: It is recommended to either modify the `temperature` or the `samplingMode`, but not both.
   public let samplingMode: SamplingMode?
 
+  /// Backend-specific options.
+  ///
+  /// Each backend checks for its own options type and ignores others.
+  /// For example, pass `OpenaiReplyOptions` when using `OpenaiLLM`.
+  ///
+  /// ```swift
+  /// let options = LLMReplyOptions(
+  ///     temperature: 0.7,
+  ///     backendOptions: OpenaiReplyOptions(
+  ///         parallelToolCalls: true,
+  ///         serviceTier: .flex
+  ///     )
+  /// )
+  /// ```
+  public let backendOptions: (any BackendReplyOptions)?
+
   /// Default configuration with model-specific defaults for all parameters.
   public static let `default` = LLMReplyOptions()
 
   public init(
     temperature: Double? = nil,
     maximumTokens: Int? = nil,
-    samplingMode: SamplingMode? = nil
+    samplingMode: SamplingMode? = nil,
+    backendOptions: (any BackendReplyOptions)? = nil
   ) {
     if let temperature {
       self.temperature = min(max(temperature, 0.0), 1.0)
@@ -590,5 +607,6 @@ public struct LLMReplyOptions: Sendable, Equatable {
     }
     self.maximumTokens = maximumTokens
     self.samplingMode = samplingMode
+    self.backendOptions = backendOptions
   }
 }

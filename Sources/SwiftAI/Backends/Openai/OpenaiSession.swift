@@ -104,17 +104,29 @@ public final actor OpenaiSession: LLMSession {
 
         do {
           while true {
+            // Extract OpenAI-specific options if provided
+            let openaiOptions = options.backendOptions as? OpenaiReplyOptions
+
             // Prepare OpenAI streaming query
             let query = CreateModelResponseQuery(
               input: input,
               model: model,
               maxOutputTokens: options.maximumTokens,
+              metadata: openaiOptions?.metadata.map {
+                Components.Schemas.Metadata(additionalProperties: $0)
+              },
+              parallelToolCalls: openaiOptions?.parallelToolCalls,
               previousResponseId: self.previousResponseID,
+              reasoning: openaiOptions?.reasoning?.toOpenAI,
+              serviceTier: openaiOptions?.serviceTier?.toOpenAI,
+              store: openaiOptions?.store,
               stream: true,
               temperature: options.temperature.map { $0 * 2.0 },  // OpenAI uses a range between 0.0 and 2.0
               text: textConfig,
               tools: try openaiTools.map { .functionTool($0) },
-              topP: extractTopPThreshold(from: options.samplingMode)
+              topP: extractTopPThreshold(from: options.samplingMode),
+              truncation: openaiOptions?.truncation?.rawValue,
+              user: openaiOptions?.user
             )
 
             var accumulatedText: String = ""

@@ -224,6 +224,25 @@ struct OpenaiLLMTests: LLMBaseTestCases {
       )
     }
   }
+
+  @Test("Backend options - reasoning effort", .enabled(if: apiKeyIsPresent()))
+  func testReply_WithReasoningEffort_Succeeds() async throws {
+    // Use o4-mini which supports reasoning
+    let reasoningLLM = OpenaiLLM(model: "o4-mini", timeoutInterval: 10)
+
+    let options = LLMReplyOptions(
+      backendOptions: OpenaiReplyOptions(
+        reasoning: .init(effort: .low)
+      )
+    )
+
+    let reply = try await reasoningLLM.reply(
+      to: "What is 15 + 27?",
+      options: options
+    )
+
+    #expect(reply.content.contains("42"))
+  }
 }
 
 /// Check if Openai API key is available for integration tests
