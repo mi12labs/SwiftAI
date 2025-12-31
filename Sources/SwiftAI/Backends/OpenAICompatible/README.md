@@ -138,29 +138,74 @@ Grok's OpenAI-compatible endpoint has good compatibility with some limitations:
 - Don't rely on strict @Guide constraints for array counts
 
 
-## API Patterns to Avoid
+## Workaround: Tools + Structured Output
 
-### 1. Tools + Structured Output (Gemini)
+Combining tools with structured output fails on Gemini (infinite loop) and Grok (400 error). Use this two-step pattern that works on **all providers**:
 
 ```swift
-// ❌ AVOID with Gemini - causes infinite loop
-let reply = try await gemini.reply(
+@Generable
+struct WeatherReport {
+    let location: String
+    let temperature: Int
+    let conditions: String
+}
+
+// Step 1: Execute tools, get text response
+let session = llm.makeSession(tools: [weatherTool])
+let toolResult = try await llm.reply(
+    to: "What's the weather in Paris?",
+    in: session
+)
+// toolResult.content is String like "The weather in Paris is 18°C and sunny."
+
+// Step 2: Parse into structured type (same session maintains context)
+let structured: LLMReply<WeatherReport> = try await llm.reply(
+    to: "Format your previous response as JSON.",
+    returning: WeatherReport.self,
+    in: session
+)
+// structured.content is WeatherReport(location: "Paris", temperature: 18, conditions: "sunny")
+```
+
+**Why this works everywhere:**
+- Step 1 uses tools only (no structured output) → works on all providers
+- Step 2 uses structured output only (no tools) → works on all providers
+- Session maintains conversation context, so Step 2 knows what to format
+
+**Tip:** For simple cases, you may be able to skip Step 2 and parse the text directly:
+
+```swift
+// If the model already returned JSON-like text, try parsing directly
+if let report = try? JSONDecoder().decode(WeatherReport.self, from: toolResult.content.data(using: .utf8)!) {
+    // Use report directly, no second API call needed
+}
+```
+
+## API Patterns to Avoid
+
+### 1. Tools + Structured Output (Gemini/Grok)
+
+```swift
+// ❌ AVOID with Gemini/Grok - causes infinite loop or 400 error
+let reply = try await llm.reply(
     to: "Calculate 10 * 5",
     returning: CalculationResult.self,  // Structured output
-    tools: [calculatorTool]              // + Tools = infinite loop
+    tools: [calculatorTool]              // + Tools = broken
 )
 
 // ✅ OK - Use tools without structured output
-let reply = try await gemini.reply(
+let reply = try await llm.reply(
     to: "Calculate 10 * 5",
     tools: [calculatorTool]
 )
 
 // ✅ OK - Use structured output without tools
-let reply = try await gemini.reply(
+let reply = try await llm.reply(
     to: "Format this as JSON",
     returning: MyStruct.self
 )
+
+// ✅ BEST - Use two-step pattern (see "Workaround" section above)
 ```
 
 ### 2. Pre-seeded Tool History (Gemini)
