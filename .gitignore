@@ -7,6 +7,7 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
 Package.resolved
+.claude/
 CLAUDE.md
 GEMINI.md
 AGENT.md
