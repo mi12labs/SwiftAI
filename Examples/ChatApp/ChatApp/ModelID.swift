@@ -7,6 +7,13 @@ enum ModelID: String, CaseIterable, Identifiable {
 
   case afm = "apple-fm"  // Apple Foundation Model
 
+  // MARK: - Cloud Providers (OpenAI-Compatible)
+
+  case gemini = "gemini"
+  case deepseek = "deepseek"
+  case grok = "grok"
+  case groq = "groq"
+
   // MARK: - Tiny Models (< 1B parameters)
 
   case smolLM_135M = "smollm-135m"
@@ -51,6 +58,16 @@ enum ModelID: String, CaseIterable, Identifiable {
     // MARK: - Apple Models
     case .afm:
       return "Apple System LLM"
+
+    // MARK: - Cloud Providers
+    case .gemini:
+      return "Gemini (Cloud)"
+    case .deepseek:
+      return "DeepSeek (Cloud)"
+    case .grok:
+      return "Grok (Cloud)"
+    case .groq:
+      return "Groq (Cloud)"
 
     // MARK: - Tiny Models
     case .smolLM_135M:

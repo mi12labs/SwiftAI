@@ -34,6 +34,31 @@ class LLMProvider {
     case .afm:
       return SystemLLM()
 
+    // MARK: - Cloud Providers (OpenAI-Compatible)
+
+    case .gemini:
+      return OpenAICompatibleLLM(
+        provider: .gemini(),
+        model: "gemini-2.0-flash"
+      )
+    case .deepseek:
+      return OpenAICompatibleLLM(
+        provider: .deepseek(),
+        model: "deepseek-chat"
+      )
+    case .grok:
+      return OpenAICompatibleLLM(
+        provider: .grok(),
+        model: "grok-3-mini"
+      )
+    case .groq:
+      return OpenAICompatibleLLM(
+        provider: .groq(),
+        model: "llama-3.1-8b-instant"
+      )
+
+    // MARK: - MLX Local Models
+
     case .smolLM_135M:
       return modelManager.llm(withConfiguration: LLMRegistry.smolLM_135M_4bit)
     case .openelm270m:

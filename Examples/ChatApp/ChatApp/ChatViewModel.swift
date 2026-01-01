@@ -131,7 +131,8 @@ class ChatViewModel {
 
     generationTask = Task {
       do {
-        let stream = llm.replyStream(to: messages.dropLast(), returning: String.self, options: .default)
+        let stream = llm.replyStream(
+          to: messages.dropLast(), returning: String.self, options: .default)
         var accumulatedText = ""
 
         for try await partialResponse in stream {

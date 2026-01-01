@@ -7,13 +7,16 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
 Package.resolved
+.claude/
 CLAUDE.md
 GEMINI.md
 AGENT.md
 
-# Environment variables
+# Environment variables and secrets
 .env
 .gemini
+*.local.xcconfig
+Secrets.xcconfig
 
 # Playground executable - keep local only
 Sources/SwiftAIPlayground/
