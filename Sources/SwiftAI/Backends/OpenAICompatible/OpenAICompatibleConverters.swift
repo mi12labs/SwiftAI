@@ -29,7 +29,8 @@ extension Message.SystemMessage {
 
 extension Message.UserMessage {
   fileprivate var asChatCompletionMessage: ChatQuery.ChatCompletionMessageParam {
-    let contentParts = chunks.map { chunk -> ChatQuery.ChatCompletionMessageParam.UserMessageParam.Content.ContentPart in
+    let contentParts = chunks.map {
+      chunk -> ChatQuery.ChatCompletionMessageParam.UserMessageParam.Content.ContentPart in
       switch chunk {
       case .text(let text):
         return .text(.init(text: text))
@@ -55,20 +56,21 @@ extension Message.AIMessage {
         .textContent(self.text)
       }
 
-    let toolCallParams: [ChatQuery.ChatCompletionMessageParam.AssistantMessageParam.ToolCallParam]? =
-      if toolCalls.isEmpty {
-        nil
-      } else {
-        toolCalls.map { toolCall in
-          .init(
-            id: toolCall.id,
-            function: .init(
-              arguments: toolCall.arguments.jsonString,
-              name: toolCall.toolName
+    let toolCallParams:
+      [ChatQuery.ChatCompletionMessageParam.AssistantMessageParam.ToolCallParam]? =
+        if toolCalls.isEmpty {
+          nil
+        } else {
+          toolCalls.map { toolCall in
+            .init(
+              id: toolCall.id,
+              function: .init(
+                arguments: toolCall.arguments.jsonString,
+                name: toolCall.toolName
+              )
             )
-          )
+          }
         }
-      }
 
     return .assistant(.init(content: content, toolCalls: toolCallParams))
   }

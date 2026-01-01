@@ -17,7 +17,7 @@ struct ProviderAwareErrorTests {
       suggestion: "Use tools OR structured output, not both"
     )
 
-    if case let .unsupportedConfiguration(provider, _, _) = error {
+    if case .unsupportedConfiguration(let provider, _, _) = error {
       #expect(provider == "Gemini")
     } else {
       Issue.record("Expected unsupportedConfiguration error")
@@ -32,7 +32,7 @@ struct ProviderAwareErrorTests {
       suggestion: "Use tools OR structured output, not both"
     )
 
-    if case let .unsupportedConfiguration(_, feature, _) = error {
+    if case .unsupportedConfiguration(_, let feature, _) = error {
       #expect(feature == "tools + structured output")
     } else {
       Issue.record("Expected unsupportedConfiguration error")
@@ -47,7 +47,7 @@ struct ProviderAwareErrorTests {
       suggestion: "Use tools OR structured output, not both"
     )
 
-    if case let .unsupportedConfiguration(_, _, suggestion) = error {
+    if case .unsupportedConfiguration(_, _, let suggestion) = error {
       #expect(suggestion == "Use tools OR structured output, not both")
     } else {
       Issue.record("Expected unsupportedConfiguration error")
@@ -73,7 +73,7 @@ struct ProviderAwareErrorTests {
   func testMinimumTokensRequired_ProvidesMinimum() {
     let error = LLMError.minimumTokensRequired(provider: "DeepSeek", minimum: 16, requested: 1)
 
-    if case let .minimumTokensRequired(_, minimum, _) = error {
+    if case .minimumTokensRequired(_, let minimum, _) = error {
       #expect(minimum == 16)
     } else {
       Issue.record("Expected minimumTokensRequired error")
@@ -84,7 +84,7 @@ struct ProviderAwareErrorTests {
   func testMinimumTokensRequired_ProvidesRequestedValue() {
     let error = LLMError.minimumTokensRequired(provider: "DeepSeek", minimum: 16, requested: 1)
 
-    if case let .minimumTokensRequired(_, _, requested) = error {
+    if case .minimumTokensRequired(_, _, let requested) = error {
       #expect(requested == 1)
     } else {
       Issue.record("Expected minimumTokensRequired error")

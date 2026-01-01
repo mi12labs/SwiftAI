@@ -304,7 +304,9 @@ struct GrokLLMTests: LLMBaseTestCases {
     try await testReply_ReturningEnums_ReturnsCorrectContent_Impl()
   }
 
-  @Test("Structured output - struct with enum with associated values", .enabled(if: grokApiKeyIsPresent()))
+  @Test(
+    "Structured output - struct with enum with associated values",
+    .enabled(if: grokApiKeyIsPresent()))
   func testReply_ReturningStructWithEnum_ReturnsCorrectContent() async throws {
     try await testReply_ReturningStructWithEnum_ReturnsCorrectContent_Impl()
   }
@@ -388,7 +390,9 @@ struct GrokLLMTests: LLMBaseTestCases {
     try await testReplyStream_ReturningNestedObjects_EmitsProgressivePartials_Impl()
   }
 
-  @Test("Streaming structured output - struct with enum with associated values", .enabled(if: grokApiKeyIsPresent()))
+  @Test(
+    "Streaming structured output - struct with enum with associated values",
+    .enabled(if: grokApiKeyIsPresent()))
   func testReplyStream_ReturningStructWithEnum_EmitsProgressivePartials() async throws {
     try await testReplyStream_ReturningStructWithEnum_EmitsProgressivePartials_Impl()
   }
@@ -512,7 +516,9 @@ struct DeepSeekLLMTests: LLMBaseTestCases {
     try await testReply_ReturningEnums_ReturnsCorrectContent_Impl()
   }
 
-  @Test("Structured output - struct with enum with associated values", .enabled(if: deepseekApiKeyIsPresent()))
+  @Test(
+    "Structured output - struct with enum with associated values",
+    .enabled(if: deepseekApiKeyIsPresent()))
   func testReply_ReturningStructWithEnum_ReturnsCorrectContent() async throws {
     try await testReply_ReturningStructWithEnum_ReturnsCorrectContent_Impl()
   }
@@ -600,7 +606,9 @@ struct DeepSeekLLMTests: LLMBaseTestCases {
     try await testReplyStream_ReturningNestedObjects_EmitsProgressivePartials_Impl()
   }
 
-  @Test("Streaming structured output - struct with enum with associated values", .enabled(if: deepseekApiKeyIsPresent()))
+  @Test(
+    "Streaming structured output - struct with enum with associated values",
+    .enabled(if: deepseekApiKeyIsPresent()))
   func testReplyStream_ReturningStructWithEnum_EmitsProgressivePartials() async throws {
     try await testReplyStream_ReturningStructWithEnum_EmitsProgressivePartials_Impl()
   }
@@ -610,7 +618,9 @@ struct DeepSeekLLMTests: LLMBaseTestCases {
     try await testReplyStream_ReturningStructured_InSession_MaintainsContext_Impl()
   }
 
-  @Test("Complex conversation history with structured analysis", .enabled(if: deepseekApiKeyIsPresent()))
+  @Test(
+    "Complex conversation history with structured analysis", .enabled(if: deepseekApiKeyIsPresent())
+  )
   func testReply_ToComplexHistory_ReturningStructured_ReturnsCorrectContent() async throws {
     try await testReply_ToComplexHistory_ReturningStructured_ReturnsCorrectContent_Impl()
   }
@@ -650,7 +660,8 @@ struct OpenAICompatibleProviderTests {
       OpenAICompatibleLLM.Provider.gemini().baseURL.absoluteString
         == "https://generativelanguage.googleapis.com/v1beta/openai")
     #expect(
-      OpenAICompatibleLLM.Provider.deepseek().baseURL.absoluteString == "https://api.deepseek.com/v1")
+      OpenAICompatibleLLM.Provider.deepseek().baseURL.absoluteString
+        == "https://api.deepseek.com/v1")
     #expect(
       OpenAICompatibleLLM.Provider.grok().baseURL.absoluteString == "https://api.x.ai/v1")
     #expect(
@@ -782,7 +793,9 @@ struct GroqLLMTests: LLMBaseTestCases {
     try await testReply_ReturningEnums_ReturnsCorrectContent_Impl()
   }
 
-  @Test("Structured output - struct with enum with associated values", .enabled(if: groqApiKeyIsPresent()))
+  @Test(
+    "Structured output - struct with enum with associated values",
+    .enabled(if: groqApiKeyIsPresent()))
   func testReply_ReturningStructWithEnum_ReturnsCorrectContent() async throws {
     try await testReply_ReturningStructWithEnum_ReturnsCorrectContent_Impl()
   }

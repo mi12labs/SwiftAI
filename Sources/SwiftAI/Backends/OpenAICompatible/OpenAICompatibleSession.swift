@@ -79,14 +79,16 @@ public final actor OpenAICompatibleSession: LLMSession {
           while true {
             toolIterations += 1
             if toolIterations > maxToolIterations {
-              throw LLMError.generalError("Too many tool call iterations (max \(maxToolIterations))")
+              throw LLMError.generalError(
+                "Too many tool call iterations (max \(maxToolIterations))")
             }
 
             let query = try self.buildQuery(for: type, options: options)
             var accumulatedText = ""
             var partialToolCalls: [PartialToolCall] = []
 
-            let stream: AsyncThrowingStream<ChatStreamResult, Error> = self.client.chatsStream(query: query)
+            let stream: AsyncThrowingStream<ChatStreamResult, Error> = self.client.chatsStream(
+              query: query)
 
             for try await result in stream {
               try Task.checkCancellation()
@@ -181,7 +183,8 @@ public final actor OpenAICompatibleSession: LLMSession {
       let schemaJson = try convertRootSchemaToOpenaiSupportedJsonSchema(type.schema)
       let schemaString = String(data: try JSONEncoder().encode(schemaJson), encoding: .utf8) ?? "{}"
       let jsonInstruction = ChatQuery.ChatCompletionMessageParam.system(
-        .init(content: .textContent("Respond with valid JSON matching this schema: \(schemaString)"))
+        .init(
+          content: .textContent("Respond with valid JSON matching this schema: \(schemaString)"))
       )
       chatMessages.insert(jsonInstruction, at: 0)
     }

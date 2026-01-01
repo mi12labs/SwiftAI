@@ -76,10 +76,15 @@ struct ConversationView: View {
               HStack {
                 ProgressView()
                   .controlSize(.mini)
-                Text(messages.last?.role == .ai && !messages.last!.text.isEmpty ? "Assistant is typing..." : "Thinking...")
-                  .foregroundColor(.secondary)
-                  .font(.caption)
-                if let lastMessage = messages.last, lastMessage.role == .ai, !lastMessage.text.isEmpty {
+                Text(
+                  messages.last?.role == .ai && !messages.last!.text.isEmpty
+                    ? "Assistant is typing..." : "Thinking..."
+                )
+                .foregroundColor(.secondary)
+                .font(.caption)
+                if let lastMessage = messages.last, lastMessage.role == .ai,
+                  !lastMessage.text.isEmpty
+                {
                   Text("(\(lastMessage.text.count) chars)")
                     .foregroundColor(.secondary)
                     .font(.caption2)

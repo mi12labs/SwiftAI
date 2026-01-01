@@ -41,7 +41,9 @@ struct MessageView: View {
               Text("▌")
                 .foregroundColor(.secondary)
                 .opacity(0.6)
-                .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: message.text.isEmpty)
+                .animation(
+                  .easeInOut(duration: 0.8).repeatForever(autoreverses: true),
+                  value: message.text.isEmpty)
             }
           }
 
